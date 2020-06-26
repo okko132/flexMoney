@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.noon.mapper.sampleMapper">
+  
+  	<resultMap id="selectInfoResultMap" type="FlexVO">
+		<id property="summaryno" column="summaryno" />
+		<association property="detailList" column="{summaryno=summaryno}" select="org.noon.mapper.sampleMapper.selectInfoDetail"/>
+	</resultMap>
+  
+  <insert id ="summaryInsert" >
+  <selectKey  keyProperty="summaryno"  resultType="java.lang.Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into flex_summary(token, holder, room, totalmoney ,personcnt, regdt) values(#{token}, #{holder}, #{room} ,#{money}, #{personCnt}, now())
+  </insert>
+  
+  <insert id ="detailInsert" >
+  insert into flex_detail(summaryno, money) values(#{summaryno},#{money})
+  </insert>
+  
+  <select id = "selectAvailableMoney" resultType="FlexVO">
+  <![CDATA[
+  select fd.summaryno, fd.detailno, fd.money, fs.regdt 
+  from flex_summary fs 
+  inner join flex_detail fd on fs.summaryno = fd.summaryno
+  where fs.token = #{token} and fs.room = #{room} and fd.available = 'Y' 
+  and fs.regdt > date_format(date_add(now(), interval -10 minute), '%Y-%m-%d %T')
+  ]]> 
+  </select>
+  
+  <select id = "selectValidCheck" resultType="FlexVO">
+  <![CDATA[
+  select fd.pno
+  from flex_summary fs 
+  inner join flex_detail fd on fs.summaryno = fd.summaryno
+  where fs.token = #{token} and fs.room = #{room} and (fs.holder = #{pno} or fd.pno = #{pno}) 
+  ]]> 
+  </select>
+  
+  <update id="updateDetailMoney">
+  update flex_detail set available = 'N', pno = #{pno} where summaryno = #{summaryno} and detailno = #{detailno}
+  </update>
+  
+  <select id = "selectInfo" resultMap="selectInfoResultMap">
+  select fs.summaryno, fs.regdt, fs.totalmoney as 'money' from flex_summary fs where token = #{token} and room = #{room} and holder = #{holder}
+  and fs.regdt > date_format(date_add(now(), interval -7 day), '%Y-%m-%d %T')
+  </select>
+    <select id = "selectInfoDetail" resultType="ReceiveVO">
+  select fd.money, fd.pno from flex_detail fd where summaryno = #{summaryno} and available = 'N'
+  </select>
+  
+  
+  </mapper>
