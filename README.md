@@ -30,7 +30,8 @@ token, x-room-id, x-user-id 를 이용하여 검색
 
 
 
-- DB구조 
+DB구조 
+
 summary에는 뿌린사람, 금액, 방번호, 토큰, 뿌린시간, 사람수
 detail에는 랜덤금액, 받았는지여부, 받은사람
 으로 구성
