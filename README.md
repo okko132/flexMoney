@@ -2,6 +2,7 @@
 
 개발환경
 Spring, Mybatis, Mysql
+
 aop 트랜잭션을 서비스단에 설정
 
 
