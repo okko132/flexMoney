@@ -6,10 +6,6 @@ Spring, Mybatis, Mysql
 aop 트랜잭션을 서비스단에 설정
 
 
-- 테스트 
-
-junit4 및 postman으로 진행
-
 
 1. 뿌리기 API
 금액,인원 요청값으로 받고 x-room-id, x-user-id를 header로 받아서 진행
@@ -37,7 +33,17 @@ token, x-room-id, x-user-id 를 이용하여 검색
 
 
 
-DB구조 
+- 테스트 
+
+junit4 및 postman으로 진행
+
+각 경우의수를 생각하여 뿌리기, 받기, 조회시 알맞게 동작하는지를 확인
+
+
+
+
+
+- DB구조 
 
 summary에는 뿌린사람, 금액, 방번호, 토큰, 뿌린시간, 사람수
 
