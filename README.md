@@ -6,6 +6,11 @@ Spring, Mybatis, Mysql
 aop 트랜잭션을 서비스단에 설정
 
 
+- 테스트 
+
+junit4 및 postman으로 진행
+
+
 1. 뿌리기 API
 금액,인원 요청값으로 받고 x-room-id, x-user-id를 header로 받아서 진행
 3자리 랜덤토큰을 발생
