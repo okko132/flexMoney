@@ -7,19 +7,31 @@ aop 트랜잭션을 서비스단에 설정
 
 1. 뿌리기 API
 금액,인원 요청값으로 받고 x-room-id, x-user-id를 header로 받아서 진행
+
 3자리 랜덤토큰을 발생
+
 금액을 인원에 맞게 랜덤으로 분배
+
 DB에는 summary와 detail에 알맞게 insert 하고 
+
 응답메시지 반환
+
 
 2. 받기 API
 뿌리기 시 생성된 token을 요청값으로 받고 x-room-id, x-user-id를 header로 받아서 진행
+
 첫번째 select로 token, x-room-id, 뿌린사람, 받은사람 값들을 사용
+
 (뿌린사람이거나, 받았거나, 뿌린돈을 이미 다 받아갔거나, 10분이 넘은경우 음수값(-1)을 반환하도록 함 로직보다 DB조건으로 validation 진행)
+
 가능한경우 select로 금액리스트를 추출
+
 추출한 금액리스트를 리스트 사이즈와 랜덤함수로 랜덤하게 가져와서 
+
 요청 사용자에게 할당하며 DB UPDATE 진행 후
+
 응답으로 금액과 응답메시지 반환 
+
 
 3. 조회 API 
 뿌리기 시 생성된 token을 요청값으로 받고 x-room-id, x-user-id를 header로 받아서 진행
@@ -33,7 +45,9 @@ token, x-room-id, x-user-id 를 이용하여 검색
 DB구조 
 
 summary에는 뿌린사람, 금액, 방번호, 토큰, 뿌린시간, 사람수
+
 detail에는 랜덤금액, 받았는지여부, 받은사람
+
 으로 구성
 
 간단하게 API 쿼리에 조건에 맞는 인덱스와 외래키 생성
